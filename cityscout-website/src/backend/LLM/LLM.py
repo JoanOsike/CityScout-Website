@@ -1,24 +1,37 @@
 #pip install simplerllm
 #pip install python-dotenv
-
+import json
 
 import os
 from SimplerLLM.language.llm import LLM, LLMProvider
+from openai import OpenAI
 from dotenv import load_dotenv
 load_dotenv()
 
-# For OpenAI
-llm_instance = LLM.create(provider=LLMProvider.OPENAI, model_name="gpt-3.5-turbo")
+# For OpenAI - SimplerLLM
+llm_instance = LLM.create(provider=LLMProvider.OPENAI, model_name="gpt-4o-mini")
 
-# For Google Gemini
-#llm_instance = LLM.create(provider=LLMProvider.GEMINI, model_name="gemini-1.5-flash")
+#Normal way
+with open('apikey', 'r') as f:
+    api_key = f.read().strip()
 
-# For Anthropic Claude
-#llm_instance = LLM.create(provider=LLMProvider.ANTHROPIC, model_name="claude-3-5-sonnet-20240620")
+results_format = {
+  "Name": "Example Business",
+  "Category": "Restaurant",
+  "Street Address": "123 Main St",
+  "City": "Toronto",
+  "Province": "Ontario",
+  "Contacts": {
+    "Phone": "+1-555-123-4567",
+    "Website": "https://example.com"
+  }
+}
 
-# For Ollama (Local Model)
-#llm_instance = LLM.create(provider=LLMProvider.OLLAMA, model_name="phi")
+User_req = '{"Category": "cafe", "City": "Toronto" ,"Province" : "ON","Budget": "10-20", "time": "13-16"}'
+Rules = "Ensure that you are searching the web for the results. Avoid fabricated information and prioritise precision and accuracy"
 
 # Generate a response
-response = llm_instance.generate_response(prompt="generate a 5 words sentence")
-print(response)
+def LLM_req(User_req):
+    
+    response = llm_instance.generate_response(prompt= f"Why cant you search the web? I was unbder the impression 4o-mini can search the web ")
+    print(response)
