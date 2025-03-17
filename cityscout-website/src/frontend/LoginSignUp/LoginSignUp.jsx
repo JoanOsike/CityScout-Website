@@ -28,6 +28,13 @@ const LoginSignUp = ({ setUser }) => {
         alert("Passwords do not match.");
         return;
       }
+
+    // Clearly check if username already exists:
+    if (localStorage.getItem(formData.username)) {
+      alert("Username already exists! Please choose a different username.");
+      return;
+    }
+    
       localStorage.setItem(formData.username, formData.password);
       alert("Account created successfully! Please login.");
       setAction("Login");

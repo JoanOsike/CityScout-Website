@@ -1,0 +1,25 @@
+.header-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #091032;
+  padding: 15px 30px;
+  color: white;
+  font-family: "Barriecito", system-ui;
+}
+
+.welcome-msg p {
+  margin: 0;
+  font-size: 18px;
+}
+
+.nav-link a {
+  color: #fff;
+  font-size: 18px;
+  margin-right:50% ;
+  text-decoration: none;
+}
+
+.nav-link a:hover {
+  text-decoration: underline;
+}
