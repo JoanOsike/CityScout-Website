@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     margin: auto;
-    margin-top: 200px;
+    margin-top: 100px;
     background: #fff;
     padding-bottom: 30px;
 }
@@ -13,11 +13,11 @@
     gap: 9px;
     width: 100%;
     margin-top: 30px;
-    font-size: 300%;
+    font-size: 200%;
 }
 
-body {
-    font-family: "Barriecito", system-ui;
+* {
+    font-family: "Anton", system-ui;
     font-weight: 400;
     font-style: normal;
 }
@@ -30,7 +30,7 @@ body {
 }
 
 .inputs{
-    margin-top: 55px;
+    margin-top: 0px;
     display: flex;
     flex-direction: column;
     gap: 25px;
@@ -60,7 +60,7 @@ body {
 .submit-container{
     display: flex;
     gap: 30px;
-    margin: 60px auto;
+    margin: 30px auto;
 }
 
 .submit{
@@ -70,8 +70,8 @@ body {
     width: 220px;
     height: 59px;
     border-radius: 50px;
-    background: #091032;
-    font-size: 19px;
+    background: #000000;
+    font-size: 17px;
     color: aliceblue;
     cursor: pointer;
 }
@@ -79,4 +79,33 @@ body {
     background: #eaeaea;
     color: #797979;
     
+}
+
+.create-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 220px;
+    height: 59px;
+    border-radius: 50px;
+    background: #dbd08e;
+    font-size: 17px;
+    color: rgb(53, 53, 53);
+    cursor: pointer;
+    border: none;
+}
+
+.buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: none;
+}
+
+.title{
+    font-family: "Barriecito";
+    font-size: 400%;
+    display: flex;
+    color: rgb(68, 43, 16);
+    justify-content: center;
 }
