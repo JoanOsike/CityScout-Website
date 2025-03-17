@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #091032;
+  background-color: #000000;
   padding: 15px 30px;
   color: white;
   font-family: "Barriecito", system-ui;
@@ -22,4 +22,9 @@
 
 .nav-link a:hover {
   text-decoration: underline;
+}
+
+.logo{
+  font-size: 250%;
+  font-family: "Barriecito", system-ui;
 }

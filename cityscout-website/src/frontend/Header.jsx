@@ -7,6 +7,9 @@ const Header = ({ user }) => {
 
   return (
     <div className="header-nav">
+      <div className="logo">
+        CityScout
+      </div>
       <div className="welcome-msg">
         {user ? (
           <p>Welcome, {user}! </p>

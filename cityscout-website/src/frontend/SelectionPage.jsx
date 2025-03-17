@@ -36,7 +36,7 @@ const SelectionPage = ({ user }) => {
       setError("Please fill all mandatory fields correctly.");
       return;
     }
-    if (isNaN(budget) || budget <= 0) {
+    if (isNaN(budget) || budget < 0) {
       setError("Budget must be a positive number.");
       return;
     }
