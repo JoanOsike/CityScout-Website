@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import './LoginSignUp.css';
 
-const LoginSignUp = () => {
+const LoginSignUp = ({ setUser }) => {
+  
+  useEffect(() => {
+    document.title = "Login / Sign Up";
+  }, []);
+
   const [action, setAction] = useState("Login");
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-    confirmPassword: ""
-  });
+  const [formData, setFormData] = useState({ username: "", password: "", confirmPassword: "" });
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -30,29 +33,41 @@ const LoginSignUp = () => {
       setAction("Login");
     } else {
       const storedPassword = localStorage.getItem(formData.username);
-      if (!storedPassword) {
-        alert("Username does not exist.");
+      if (!storedPassword || storedPassword !== formData.password) {
+        alert("Incorrect username or password.");
         return;
       }
-      if (storedPassword !== formData.password) {
-        alert("Incorrect password.");
-        return;
-      }
-      alert(`Welcome back, ${formData.username}!`);
+      setUser(formData.username);
+      navigate('/selection');
     }
 
     setFormData({ username: "", password: "", confirmPassword: "" });
   };
 
+  const continueAsGuest = () => {
+    setUser(null);
+    navigate('/selection');
+  };
+
   return (
     <div className="container">
+      <div className="title">CityScout</div>
       <div className="header">
         <div className="text">{action}</div>
         <div className="underline"></div>
       </div>
 
+      <div className="submit-container">
+        <div className={action === "Login" ? "submit gray" : "submit"} onClick={() => setAction("Sign Up")}>
+          Sign Up Page
+        </div>
+        <div className={action === "Sign Up" ? "submit gray" : "submit"} onClick={() => setAction("Login")}>
+          Login Page
+        </div>
+      </div>
+      
       <form className="inputs" onSubmit={handleSubmit}>
-        <div className="input">
+      <div className="input">
           <input
             type='text'
             name='username'
@@ -86,27 +101,22 @@ const LoginSignUp = () => {
             />
           </div>
         )}
-
-        <button type="submit" className="submit-btn">
+        <div className="buttons">
+          <button type="submit" className="create-button">
           {action === "Login" ? "Login" : "Create Account"}
-        </button>
+          </button>
+        </div>
+
+
       </form>
 
-      <div className="submit-container">
-        <div
-          className={action === "Login" ? "submit gray" : "submit"}
-          onClick={() => setAction("Sign Up")}
-        >
-          Sign Up
-        </div>
-
-        <div
-          className={action === "Sign Up" ? "submit gray" : "submit"}
-          onClick={() => setAction("Login")}
-        >
-          Login
-        </div>
+      <div className="buttons">
+        <button className="create-button" style={{ marginTop: "20px" }} onClick={continueAsGuest}>
+        Continue as Guest
+        </button>
       </div>
+
+
     </div>
   );
 };
