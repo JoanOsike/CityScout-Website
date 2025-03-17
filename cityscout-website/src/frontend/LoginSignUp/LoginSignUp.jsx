@@ -25,10 +25,17 @@ const LoginSignUp = () => {
         alert("Passwords do not match.");
         return;
       }
-      alert("Account created successfully!");
+      localStorage.setItem(formData.username, formData.password);
+      alert("Account created successfully! Please login.");
+      setAction("Login");
     } else {
-      if (!formData.username || !formData.password) {
-        alert("Please fill in all fields.");
+      const storedPassword = localStorage.getItem(formData.username);
+      if (!storedPassword) {
+        alert("Username does not exist.");
+        return;
+      }
+      if (storedPassword !== formData.password) {
+        alert("Incorrect password.");
         return;
       }
       alert(`Welcome back, ${formData.username}!`);
