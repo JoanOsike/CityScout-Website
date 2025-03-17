@@ -41,11 +41,21 @@ const SelectionPage = ({ user }) => {
       return;
     }
 
+    //  minimum budget of $15 for "Restaurant" and "Games and Activities"
+    const minBudgetActivities = ["Restaurant", "Games and Activities","Cafe"];
+    if (minBudgetActivities.includes(activity.value) && budget < 15) {
+      setError(`The minimum budget for ${activity.label} is $15.`);
+      return;
+    }
+
     setError('');
     alert(`Selections are valid! Province: ${province.label}, City: ${city}, Activity: ${activity.label}, Budget: $${budget}, ${time ? "Time: " + time.label : "No time selected"}`);
   };
 
   const selectedProvince = citiesData.find(p => p.Province === province?.value);
+  
+  // Exclude "Morning" if "Club" is selected
+  const filteredTimes = activity?.value === 'Club' ? times.filter(t => t.value !== 'Morning') : times;
 
   return (
     <>
@@ -66,17 +76,17 @@ const SelectionPage = ({ user }) => {
         </div>
 
         {province && (
-  <div className='dropdown-container'>
-    <label>City (Mandatory)</label>
-    <Select
-      value={city ? { value: city, label: city } : null}
-      onChange={(selectedOption) => setCity(selectedOption?.value)}
-      options={selectedProvince.City.map((c) => ({ value: c, label: c }))}
-      placeholder="Select City"
-      isSearchable
-    />
-  </div>
-)}
+        <div className='dropdown-container'>
+          <label>City (Mandatory)</label>
+          <Select
+            value={city ? { value: city, label: city } : null}
+            onChange={(selectedOption) => setCity(selectedOption?.value)}
+            options={selectedProvince.City.map((c) => ({ value: c, label: c }))}
+            placeholder="Select City"
+            isSearchable
+          />
+        </div>
+      )}
 
         <div className="dropdown-container">
           <label>Activity (Mandatory)</label>
@@ -101,7 +111,7 @@ const SelectionPage = ({ user }) => {
         <div className="dropdown-container">
           <label>Time of the Day (Optional)</label>
           <Select
-            options={times}
+            options={filteredTimes}
             value={time}
             onChange={setTime}
             placeholder="Select Time (Optional)"

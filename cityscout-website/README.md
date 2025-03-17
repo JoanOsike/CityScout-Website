@@ -26,8 +26,10 @@ when you haven't install react-router-dom and react-select:
 
 when you npm start but got localhost 3000 is taken,,,:
 
+### `open command prompt`
 ### `netstat -ano | findstr :3000`
-then do
-### `TCP   0.0.0.0:3000    0.0.0.0:0    LISTENING    [the numbers you see from the result you got after]`
-
-
+then you will see
+### `TCP   0.0.0.0:3000    0.0.0.0:0    LISTENING    [the numbers you see from the result you got after for ex.12345]`
+then do:
+### `taskkill /PID 12345 /F`
+`
