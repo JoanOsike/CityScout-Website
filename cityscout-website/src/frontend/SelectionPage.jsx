@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
+import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import './style/SelectionPage.css';
 import citiesData from './cities.json';
@@ -19,6 +20,7 @@ const times = [
 ];
 
 const SelectionPage = ({ user }) => {
+  const navigate = useNavigate();
   const provinces = citiesData.map(p => ({ value: p.Province, label: p.Province }));
   const [province, setProvince] = useState(null);
   const [city, setCity] = useState(null);
@@ -30,13 +32,13 @@ const SelectionPage = ({ user }) => {
   useEffect(() => {
     document.title = "Selection Page";
   }, []);
-
-  const handleShowResult = () => {
+  const handleShowResult = async () => {
     if (!province || !city || !activity || !budget) {
       setError("Please fill all mandatory fields correctly.");
       return;
     }
-    if (isNaN(budget) || budget < 0) {
+
+        if (isNaN(budget) || budget < 0) {
       setError("Budget must be a positive number.");
       return;
     }
@@ -52,14 +54,35 @@ const SelectionPage = ({ user }) => {
       setError(`The minimum budget for ${activity.label} is $15.`);
       return;
     }
-
-    setError('');
-    alert(`Selections are valid! Province: ${province.label}, City: ${city}, Activity: ${activity.label}, Budget: $${budget}, ${time ? "Time: " + time.label : "No time selected"}`);
-  };
-
-  const selectedProvince = citiesData.find(p => p.Province === province?.value);
   
-  // Exclude "Morning" if "Club" is selected
+    const requestData = {
+      Category: activity.value,
+      City: city,
+      Province: province.value,
+      Budget: budget,
+      Time: time ? time.value : "Any"
+    };
+  
+    try {
+      const response = await fetch("http://127.0.0.1:5000/get_recommendations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestData)
+      });
+  
+      const data = await response.json();
+      console.log("✅ Received data from Flask:", data); 
+  
+      //Navigate to ResultPage with data
+      navigate('/results', { state: { recommendations: data } });
+  
+    } catch (error) {
+      console.error(" Error fetching recommendations:", error);
+      setError("Failed to fetch recommendations.");
+    }
+  };
+  
+  const selectedProvince = citiesData.find(p => p.Province === province?.value);
   const filteredTimes = activity?.value === 'Club' ? times.filter(t => t.value !== 'Morning') : times;
 
   return (
