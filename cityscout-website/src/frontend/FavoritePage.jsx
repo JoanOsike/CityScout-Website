@@ -1,4 +1,6 @@
+//Favorite Page: logged in user can add to favorite.
 import React, { useState, useEffect } from "react";
+import Header from './Header';
 
 const FavoritePage = ({ user }) => {
   const [favorites, setFavorites] = useState([]);
@@ -52,6 +54,8 @@ const FavoritePage = ({ user }) => {
   }
 
   return (
+    <div>
+      <Header user={user} />
     <div className="container">
       <h1>Favorite Page</h1>
       <p>Welcome, {user}! These are your favorite items:</p>
@@ -83,6 +87,7 @@ const FavoritePage = ({ user }) => {
           ))}
         </ul>
       )}
+    </div>
     </div>
   );
 };

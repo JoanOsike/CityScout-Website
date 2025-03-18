@@ -79,7 +79,12 @@ const LoginSignUp = ({ setUser }) => {
 
   return (
     <div className="container">
-      <div className="title">CityScout</div>
+      <div className="title">Welcome to CityScout</div>
+      <p className="description">
+        CityScout is your go-to web app for discovering the best places to visit based on 
+        your city, budget, and interests. Whether you're in the mood for a cafe, museum,
+        park, restaurant, games, or a club, CityScout tailors recommendations to match your preferences.
+      </p>
       <div className="header">
         <div className="text">{action}</div>
         <div className="underline"></div>
