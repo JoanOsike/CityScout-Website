@@ -16,9 +16,13 @@ const LoginSignUp = ({ setUser }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
+    const apiEndpoint = action === "Sign Up" 
+      ? "http://localhost:3306/api/users/register" 
+      : "http://localhost:3306/api/users/login";
+  
     if (action === "Sign Up") {
       if (formData.password.length < 6) {
         alert("Password must be at least 6 characters.");
@@ -28,21 +32,45 @@ const LoginSignUp = ({ setUser }) => {
         alert("Passwords do not match.");
         return;
       }
-      localStorage.setItem(formData.username, formData.password);
-      alert("Account created successfully! Please login.");
-      setAction("Login");
     } else {
-      const storedPassword = localStorage.getItem(formData.username);
-      if (!storedPassword || storedPassword !== formData.password) {
-        alert("Incorrect username or password.");
+      if (!formData.username || !formData.password) {
+        alert("Please fill in all fields.");
         return;
       }
-      setUser(formData.username);
-      navigate('/selection');
     }
-
+  
+    try {
+      const response = await fetch(apiEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: formData.username,
+          password: formData.password,
+        }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        if (action === "Login") {
+          alert(data.message);
+          localStorage.setItem("token", data.token); // Save token for authentication
+          setUser(formData.username);
+          navigate("/selection");
+        } else {
+          alert(data.message);
+          setAction("Login");
+        }
+      } else {
+        alert(data.error);
+      }
+    } catch (error) {
+      alert("An error occurred. Please try again later.");
+    }
+  
     setFormData({ username: "", password: "", confirmPassword: "" });
   };
+  
 
   const continueAsGuest = () => {
     setUser(null);

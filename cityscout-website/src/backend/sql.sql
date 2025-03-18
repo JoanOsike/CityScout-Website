@@ -23,7 +23,6 @@ FLUSH PRIVILEGES;
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) UNIQUE NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -44,8 +43,8 @@ CREATE TABLE favorites (
 
 -- --------------------------------Data insertion--------------------------------
 
-INSERT INTO users (username, email, password_hash)
-VALUES ('john_doe', 'john@example.com', '$2b$10$hashedpassword123');
+INSERT INTO users (username, password_hash)
+VALUES ('john_doe', '$2b$10$hashedpassword123');
 
 INSERT INTO favorites (user_id, name, category, street_address, city, province, contacts)
 VALUES (
