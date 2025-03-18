@@ -28,12 +28,15 @@ const Header = ({ user }) => {
             {location.pathname === '/favorite' && (
               <Link to="/selection">Go to Selection Page</Link>
             )}
+            {location.pathname === '/results' && (
+              <Link to="/favorite">Go to Favorite Page</Link>
+            )}
             {
                 <Link to="/">Logout</Link>
             }
           </>
         ) : (
-          location.pathname === '/selection' && (
+          (location.pathname === '/selection' || location.pathname === '/results')&& (
             <Link to="/">Login / Sign Up</Link>
           )
         )}

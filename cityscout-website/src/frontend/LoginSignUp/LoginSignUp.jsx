@@ -20,8 +20,8 @@ const LoginSignUp = ({ setUser }) => {
     e.preventDefault();
   
     const apiEndpoint = action === "Sign Up" 
-      ? "http://localhost:3306/api/users/register" 
-      : "http://localhost:3306/api/users/login";
+      ? "http://localhost:3001/api/users/register" 
+      : "http://localhost:3001/api/users/login";
   
     if (action === "Sign Up") {
       if (formData.password.length < 6) {
