@@ -4,12 +4,12 @@ import json
 from openai import OpenAI
 
 app = Flask(__name__)
-CORS(app)  # ✅ Allow requests from React frontend
+CORS(app)  #Allow requests from React frontend
 
-# ✅ Load API Key
+# Load API Key
 api_key = ""
 
-# ✅ Expected JSON format
+#Expected format
 results_format = {
     "Name": "Example Business",
     "Category": "Restaurant",
@@ -23,15 +23,14 @@ results_format = {
 }
 Rules = "Ensure that you are searching the web for the results. Avoid fabricated information and prioritise precision and accuracy"
 
-# ✅ Route to Receive Data from Frontend
+# Route to Receive Data from Frontend
 @app.route('/get_recommendations', methods=['POST'])
 def get_recommendations():
     try:
-        # ✅ Get user input from frontend
-        user_input = request.json
-        print("📥 Received user input:", user_input)  # Debugging
 
-        # ✅ Convert input to JSON string format for OpenAI request
+        user_input = request.json
+        print(" Received user input:", user_input)
+
         user_query = json.dumps(user_input)
 
         client = OpenAI(api_key=api_key)

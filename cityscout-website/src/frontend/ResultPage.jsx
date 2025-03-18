@@ -1,3 +1,4 @@
+//Result Page: get outputs to put back into result page
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "./Header";

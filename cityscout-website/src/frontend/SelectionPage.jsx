@@ -1,3 +1,4 @@
+//SelectionPage: links to the LLM.py to send inputs 
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { useNavigate } from 'react-router-dom';
