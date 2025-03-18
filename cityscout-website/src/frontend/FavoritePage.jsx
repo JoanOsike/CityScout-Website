@@ -19,7 +19,7 @@ const FavoritePage = ({ user }) => {
     setLoading(true);
     
     try {
-      const response = await fetch(`http://localhost:3306/api/favorites/${user}`);
+      const response = await fetch(`http://localhost:3001/api/favorites/${user}`);
       if (!response.ok) {
         throw new Error("Failed to fetch favorites.");
       }
@@ -34,7 +34,7 @@ const FavoritePage = ({ user }) => {
 
   const deleteFavorite = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3306/api/favorites/${id}`, { method: "DELETE" });
+      const response = await fetch(`http://localhost:3001/api/favorites/${id}`, { method: "DELETE" });
       if (!response.ok) {
         throw new Error("Failed to delete favorite.");
       }
