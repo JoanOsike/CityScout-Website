@@ -33,3 +33,4 @@ then you will see
 then do:
 ### `taskkill /PID 12345 /F`
 `
+notes: you don't need to push Package-lock.json, package.json or readme.md

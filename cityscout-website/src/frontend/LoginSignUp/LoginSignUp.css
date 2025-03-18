@@ -1,8 +1,11 @@
 .container{
     display: flex;
     flex-direction: column;
+    justify-content: center; /* Centers content vertically */
+    align-items: center; /* Centers content horizontally */
+    height: 100vh; /* Takes full screen height */
     margin: auto;
-    margin-top: 100px;
+    margin-top: 10px;
     background: #fff;
     padding-bottom: 30px;
 }
@@ -108,4 +111,14 @@
     display: flex;
     color: rgb(68, 43, 16);
     justify-content: center;
+}
+
+.description {
+    text-align: center; /* Centers text */
+    max-width: 600px; /* Adjust width to prevent text from stretching */
+    font-family: "Rowdies", sans-serif;
+    font-size: 100%;
+    color: rgb(68, 43, 16);
+    line-height: 1.5;
+    margin-bottom: 20px; /* Adjust spacing */
 }
