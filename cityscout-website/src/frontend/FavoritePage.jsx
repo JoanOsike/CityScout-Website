@@ -1,3 +1,4 @@
+//Favorite Page: logged in user can add to favorite.
 import React, {useEffect} from 'react';
 import Header from './Header';
 
