@@ -21,6 +21,7 @@ results_format = {
         "Website": "https://example.com"
     }
 }
+Rules = "Ensure that you are searching the web for the results. Avoid fabricated information and prioritise precision and accuracy"
 
 # ✅ Route to Receive Data from Frontend
 @app.route('/get_recommendations', methods=['POST'])
@@ -35,37 +36,20 @@ def get_recommendations():
 
         client = OpenAI(api_key=api_key)
 
-        response2 = client.chat.completions.create(
-            model="gpt-4o",
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You are a JSON output generator. Follow these rules strictly: Ensure that you are searching by preferrably google maps for the results. Avoid fabricated information and prioritize precision and accuracy."
-                },
-                {
-                    "role": "user",
-                    "content": f"Provide 1 to 3 real-world locations based on this request: {user_query}."
-                               f"Format the output as a JSON list using this structure: {json.dumps(results_format)}."
-                }
-            ]
+        response2 = client.responses.create(
+            model="gpt-4o-mini",
+            tools=[{"type" : "web_search_preview"}],
+            input=f"You are playing the part of a json-outputter. Abiding to the following rules '{Rules}', provide 1-3 locations based on {user_query} and provide the output as a json of a list of locations in the matching city with the following format '{results_format}'."
         )
+        
+        json_str = response2.output_text.split("json\n")[1].split("```")[0]
+        spots = json.loads(json_str)
 
-        #  Extract response text
-        ai_response = response2.choices[0].message.content.strip()
-
-        # Remove Markdown formatting from OpenAI response
-        if ai_response.startswith("```json"):
-            ai_response = ai_response[7:]  
-        if ai_response.endswith("```"):
-            ai_response = ai_response[:-3]  
-
-        # Convert OpenAI response to JSON
-        spots = json.loads(ai_response)
 
         print("📩 Sending response to frontend:", spots)  # Debugging
         return jsonify(spots)
 
-    except json.JSONDecodeError as e:
+    except json.JSONDecodeError:
         print(f"⚠️ JSON Error: OpenAI response is not valid JSON.\n{ai_response}")
         return jsonify({"error": "Invalid JSON response from OpenAI"}), 500
     except Exception as e:
