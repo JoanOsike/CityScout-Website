@@ -154,10 +154,23 @@ const SelectionPage = ({ user }) => {
           />
         </div>
 
-        <button className="show-result-btn" onClick={handleShowResult} diablble = {loading}> 
-        {loading ? "Fetching Results from AI..." : "Show Result"}
+        <button className="show-result-btn" onClick={handleShowResult} disabled={loading}> 
+          {loading ? (
+            <>
+              Fetching Results from AI...
+            </>
+          ) : (
+            "Show Result"
+          )}
         </button>
+      
       </div>
+      {loading && (
+        <div className="loading-container">
+          <img src="/loading.gif" alt="Loading..." className="loading-gif" />
+        </div>
+      )}
+
     </>
   );
 };

@@ -43,4 +43,15 @@
     margin-bottom: 15px;
     font-weight: bold;
   }
+  .loading-container {
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center; /* Centers vertically if needed */
+    width: 100%; /* Ensures it takes the full width */
+  }
+  
+  .loading-gif {
+    width: 120px; /* Adjust size */
+    height: 120px;
+  }
   
