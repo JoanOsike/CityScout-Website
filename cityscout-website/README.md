@@ -42,3 +42,13 @@ to run, open a terminal separate from the frontend:
 ### `cd backend`
 ### `npm install mysql2 bcrypt express dotenv jsonwebtoken cors` (only if haven't already installed)
 ### `node server.js`
+
+# Getting LLM Started
+
+to run LLM,  open a new terminal (only do installs the first time):
+
+### cd to LLM.py
+### pip install openai
+### pip install flask_cors
+### python LLM.py
+### make sure the API key is in the code

@@ -1,6 +1,7 @@
 //Favorite Page: logged in user can add to favorite.
 import React, { useState, useEffect } from "react";
 import Header from './Header';
+import "./style/FavoritePage.css";
 
 const FavoritePage = ({ user }) => {
   const [favorites, setFavorites] = useState([]);
@@ -48,7 +49,7 @@ const FavoritePage = ({ user }) => {
     return (
       <>
       <Header user={user} />
-      <div className="container">
+      <div className="favorites-container">
         <h1>Favorite Page</h1>
         <p>Please log in to view your favorites.</p>
       </div>
@@ -59,7 +60,7 @@ const FavoritePage = ({ user }) => {
   return (
     <div>
       <Header user={user} />
-    <div className="container">
+    <div className="favorites-container">
       <h1>Favorite Page</h1>
       <p>Welcome, {user}! These are your favorite items:</p>
 
@@ -70,15 +71,14 @@ const FavoritePage = ({ user }) => {
       ) : favorites.length === 0 ? (
         <p>You have no favorites yet.</p>
       ) : (
-        <ul className="favorites-list">
+        <div className="favorites-list">
           {favorites.map((favorite) => (
-            <li key={favorite.id} className="favorite-item">
+            <div key={favorite.id} className="favorite-item">
               <h3>{favorite.name}</h3>
               <p>Category: {favorite.category}</p>
               <p>Address: {favorite.street_address}, {favorite.city}, {favorite.province}</p>
-              <p>Contacts: {Object.entries(favorite.contacts).map(([key, value]) => (
-                <p key={key}>   {key}: {value} </p>
-              ))}</p>
+              <p>Phone: {favorite.contacts.Phone}</p>
+              <p>Website: <a href={favorite.contacts.Website} target="_blank" rel="noopener noreferrer">{favorite.contacts.Website}</a></p>
      
               <button
                 onClick={() => deleteFavorite(favorite.id)}
@@ -86,9 +86,9 @@ const FavoritePage = ({ user }) => {
               >
                 Delete
               </button>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
     </div>
