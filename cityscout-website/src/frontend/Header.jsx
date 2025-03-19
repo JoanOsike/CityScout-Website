@@ -3,8 +3,18 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './style/Header.css';
 
-const Header = ({ user }) => {
+const continueAsGuest = () => {
+  setUser(null);
+  
+};
+
+const Header = ({ user, setUser }) => {
   const location = useLocation();
+
+  const continueAsGuest = () => {
+    setUser(null);
+    
+  };
 
   return (
     <div className="header-nav">
@@ -32,7 +42,8 @@ const Header = ({ user }) => {
               <Link to="/favorite">Go to Favorite Page</Link>
             )}
             {
-                <Link to="/">Logout</Link>
+                <Link to="/" onClick={continueAsGuest}>Logout</Link>
+
             }
           </>
         ) : (
