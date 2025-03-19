@@ -12,6 +12,7 @@ const activities = [
   { value: 'Park', label: 'Park' },
   { value: 'Restaurant', label: 'Restaurant' },
   { value: 'Games and Activities', label: 'Games and Activities' },
+  { value: 'Club', label: 'Club' }
 ];
 
 const times = [
@@ -84,7 +85,8 @@ const SelectionPage = ({ user }) => {
   };
   
   const selectedProvince = citiesData.find(p => p.Province === province?.value);
-  const filteredTimes = activity?.value === 'Club' ? times.filter(t => t.value !== 'Morning') : times;
+  const filteredTimes = activity?.value === 'Club' ? times.filter(t => t.value !== 'Morning' && t.value !== 'Afternoon') : times;
+  
 
   return (
     <>
