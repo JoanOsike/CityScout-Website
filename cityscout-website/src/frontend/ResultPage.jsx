@@ -83,8 +83,13 @@ const ResultPage = ({ user }) => {
                 <h3>{place.Name}</h3>
                 <p><strong>Category:</strong> {place.Category}</p>
                 <p><strong>Address:</strong> {place["Street Address"]}, {place.City}, {place.Province}</p>
-                <p><strong>Phone:</strong> {place.Contacts.Phone}</p>
-                <p><strong>Website:</strong> <a href={place.Contacts.Website} target="_blank" rel="noopener noreferrer">{place.Contacts.Website}</a></p>
+                {place.Contacts.Website === "Unavailable" ? (
+                    <><p><strong>Phone:</strong> Unknown</p>
+                    <p><strong>Website:</strong> {place.Contacts.Website}</p></>
+                ) : (
+                    <><p><strong>Phone:</strong> {place.Contacts.Phone}</p>
+                    <p><strong>Website:</strong> <a href={place.Contacts.Website} target="_blank" rel="noopener noreferrer">{place.Contacts.Website}</a></p></>
+                )}
                 <button 
                 className="add-favorite-btn" 
                 onClick={()=>handleAddToFavorites(place)}>
