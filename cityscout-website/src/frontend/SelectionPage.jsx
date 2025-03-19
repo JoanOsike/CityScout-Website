@@ -46,7 +46,7 @@ const SelectionPage = ({ user }) => {
     }
 
     //  minimum budget of $15 for "Restaurant" and "Games and Activities"
-    const minBudgetActivities = ["Restaurant", "Games and Activities"];
+    const minBudgetActivities = ["Restaurant", "Games and Activities", "Club"];
     const minBudgetActivitiesCafe = ["Cafe"];
     if(minBudgetActivitiesCafe.includes(activity.value)&& budget <5) {
       setError(`The minimum budget for ${activity.label} is $5.`);
