@@ -12,6 +12,7 @@ const activities = [
   { value: 'Park', label: 'Park' },
   { value: 'Restaurant', label: 'Restaurant' },
   { value: 'Games and Activities', label: 'Games and Activities' },
+  { value: 'Club', label: 'Club' }
 ];
 
 const times = [
@@ -29,6 +30,7 @@ const SelectionPage = ({ user }) => {
   const [budget, setBudget] = useState('');
   const [time, setTime] = useState(null);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     document.title = "Selection Page";
@@ -45,7 +47,7 @@ const SelectionPage = ({ user }) => {
     }
 
     //  minimum budget of $15 for "Restaurant" and "Games and Activities"
-    const minBudgetActivities = ["Restaurant", "Games and Activities"];
+    const minBudgetActivities = ["Restaurant", "Games and Activities", "Club"];
     const minBudgetActivitiesCafe = ["Cafe"];
     if(minBudgetActivitiesCafe.includes(activity.value)&& budget <5) {
       setError(`The minimum budget for ${activity.label} is $5.`);
@@ -65,6 +67,7 @@ const SelectionPage = ({ user }) => {
     };
   
     try {
+      setLoading(true);
       const response = await fetch("http://127.0.0.1:5000/get_recommendations", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -80,11 +83,14 @@ const SelectionPage = ({ user }) => {
     } catch (error) {
       console.error(" Error fetching recommendations:", error);
       setError("Failed to fetch recommendations.");
+    } finally {
+      setLoading(false);
     }
   };
   
   const selectedProvince = citiesData.find(p => p.Province === province?.value);
-  const filteredTimes = activity?.value === 'Club' ? times.filter(t => t.value !== 'Morning') : times;
+  const filteredTimes = activity?.value === 'Club' ? times.filter(t => t.value !== 'Morning' && t.value !== 'Afternoon') : times;
+  
 
   return (
     <>
@@ -148,7 +154,9 @@ const SelectionPage = ({ user }) => {
           />
         </div>
 
-        <button className="show-result-btn" onClick={handleShowResult}>Show Result</button>
+        <button className="show-result-btn" onClick={handleShowResult} diablble = {loading}> 
+        {loading ? "Fetching Results from AI..." : "Show Result"}
+        </button>
       </div>
     </>
   );
