@@ -105,8 +105,8 @@
             "Fredericton",
             "Miramichi",
             "Moncton",
-            "Saint John",
-            "Sainte-Anne-de-Madawaska "
+            "Saint John"
+            
         ]
     },
     {
@@ -211,7 +211,6 @@
         "Province": "Saskatchewan",
         "City": [
             "Estevan",
-            "Flin Flon",
             "Humboldt",
             "Lloydminster",
             "Martensville",
