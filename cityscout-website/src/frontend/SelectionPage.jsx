@@ -30,6 +30,7 @@ const SelectionPage = ({ user }) => {
   const [budget, setBudget] = useState('');
   const [time, setTime] = useState(null);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     document.title = "Selection Page";
@@ -66,6 +67,7 @@ const SelectionPage = ({ user }) => {
     };
   
     try {
+      setLoading(true);
       const response = await fetch("http://127.0.0.1:5000/get_recommendations", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -81,6 +83,8 @@ const SelectionPage = ({ user }) => {
     } catch (error) {
       console.error(" Error fetching recommendations:", error);
       setError("Failed to fetch recommendations.");
+    } finally {
+      setLoading(false);
     }
   };
   
@@ -150,7 +154,9 @@ const SelectionPage = ({ user }) => {
           />
         </div>
 
-        <button className="show-result-btn" onClick={handleShowResult}>Show Result</button>
+        <button className="show-result-btn" onClick={handleShowResult} diablble = {loading}> 
+        {loading ? "Fetching Results from AI..." : "Show Result"}
+        </button>
       </div>
     </>
   );
