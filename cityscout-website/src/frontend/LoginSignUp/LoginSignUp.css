@@ -126,7 +126,7 @@
 }
 @media screen and (max-width: 768px) {
     .container{
-        margin-top: 100%;
+        margin-top: 70%;
     }
     .submit{
         width: 100px;

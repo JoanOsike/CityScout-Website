@@ -75,7 +75,8 @@ const ResultPage = ({ user }) => {
         {recommendations.length > 0 ? (
             <div className="results-container">
             <h2>Suggested Locations:</h2>
-            
+            Caution: The results may include AI hallucinations. Use as your own discretion.
+            <p></p>
             {recommendations.map((place, index) => (
                 
                 <div key={index} className="result-item">
