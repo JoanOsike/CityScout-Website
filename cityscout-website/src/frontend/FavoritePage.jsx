@@ -77,8 +77,13 @@ const FavoritePage = ({ user }) => {
               <h3>{favorite.name}</h3>
               <p>Category: {favorite.category}</p>
               <p>Address: {favorite.street_address}, {favorite.city}, {favorite.province}</p>
-              <p>Phone: {favorite.contacts.Phone}</p>
-              <p>Website: <a href={favorite.contacts.Website} target="_blank" rel="noopener noreferrer">{favorite.contacts.Website}</a></p>
+              {favorite.contacts.Website === "Unavailable" ? (
+                    <><p><strong>Phone:</strong> Unknown</p>
+                    <p><strong>Website:</strong> {favorite.contacts.Website}</p></>
+                ) : (
+                    <><p><strong>Phone:</strong> {favorite.contacts.Phone}</p>
+                    <p><strong>Website:</strong> <a href={favorite.contacts.Website} target="_blank" rel="noopener noreferrer">{favorite.contacts.Website}</a></p></>
+                )}
      
               <button
                 onClick={() => deleteFavorite(favorite.id)}
