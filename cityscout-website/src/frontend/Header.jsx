@@ -36,7 +36,7 @@ const Header = ({ user }) => {
             }
           </>
         ) : (
-          (location.pathname === '/selection' || location.pathname === '/results')&& (
+          (location.pathname === '/selection' || location.pathname === '/results' || location.pathname === '/favorite')&& (
             <Link to="/">Login / Sign Up</Link>
           )
         )}

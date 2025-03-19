@@ -22,19 +22,49 @@ const ResultPage = ({ user }) => {
         console.log("📝 Updated Favorites List:", favorites); // Debugging
     }, [favorites]);
 
-    const handleAddToFavorites=(place)=>{
+    const handleAddToFavorites = async (place) => {
         if (!user) {
             setMessage("Please log in to add to favorites.");
             return;
         }
+    
+        // Toggle favorite state in the frontend
         if (favorites.some(favorite => favorite.Name === place.Name)) {
-            setFavorites(favorites.filter(favorite => favorite.Name !== place.Name));
-            setMessage("Place removed from favorites.");
-        } else {
-            setFavorites(favorites.concat(place));
-            setMessage("Place added to favorites.");
+            //setFavorites(favorites.filter(favorite => favorite.Name !== place.Name));
+            setMessage("Place saved in favorites.");
+            return;
         }
-    }
+    
+        try {
+            const response = await fetch("http://localhost:3001/api/favorites/add", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username: user, // Send the username from the user prop
+                    name: place.Name,
+                    category: place.Category,
+                    street_address: place["Street Address"],
+                    city: place.City,
+                    province: place.Province,
+                    contacts: JSON.stringify(place.Contacts), // Convert contacts to a JSON string
+                }),
+            });
+            const data = await response.json();
+    
+            if (response.ok) {
+                
+                setFavorites(favorites.concat(place));
+                setMessage(data.message || "Place added to favorites.");
+            } else {
+                setMessage(data.message || "Failed to add to favorites.");
+            }
+        } catch (err) {
+            setMessage("An error occurred while adding to favorites.");
+        }
+    };
+    
     console.log("📩 Received recommendations:", recommendations); // Debugging
 
     return (

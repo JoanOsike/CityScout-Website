@@ -21,7 +21,10 @@ results_format = {
         "Website": "https://example.com"
     }
 }
-Rules = "Ensure that you are searching the web for the results. Avoid fabricated information and prioritise precision and accuracy"
+Rules = "Ensure that you are searching the web for the results. " \
+"Do not fabricate information. Prioritize real-world accuracy and provide links only if they don't give 404 not found error." \
+"Take information from google maps api" \
+"Do not add any additional text, only provide the fields present in the format"
 
 # Route to Receive Data from Frontend
 @app.route('/get_recommendations', methods=['POST'])
@@ -36,11 +39,12 @@ def get_recommendations():
         client = OpenAI(api_key=api_key)
 
         response2 = client.responses.create(
-            model="gpt-4o-mini",
+            model="gpt-4o",
             tools=[{"type" : "web_search_preview"}],
-            input=f"You are playing the part of a json-outputter. Abiding to the following rules '{Rules}', provide 1-3 locations based on {user_query} and provide the output as a json of a list of locations in the matching city with the following format '{results_format}'."
+            input=f"You are playing the part of a json-outputter. Abiding strictly to the following rules '{Rules}', provide 1-3 locations based on {user_query} and provide the output as a json of a list of locations in the matching city, strictly fitting the following format '{results_format}'."
         )
-        
+        #print("Raw OpenAI response:", response2)
+
         json_str = response2.output_text.split("json\n")[1].split("```")[0]
         spots = json.loads(json_str)
 

@@ -20,22 +20,36 @@ router.post("/add", (req, res) => {
 
         const user_id = results[0].id;
 
-        // Step 2: Insert into the favorites table using the user_id
-        const addFavoriteSql =
-            "INSERT INTO favorites (user_id, name, category, street_address, city, province, contacts) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        db.query(
-            addFavoriteSql,
-            [user_id, name, category, street_address, city, province, contacts],
-            (err, result) => {
-                if (err) {
-                    return res.status(500).json({ error: "Failed to add favorite." });
-                }
-
-                res.json({ message: "Favorite added successfully!" });
+        // Step 2: Check if the favorite already exists
+        const checkFavoriteSql =
+            "SELECT * FROM favorites WHERE user_id = ? AND name = ? AND city = ?";
+        db.query(checkFavoriteSql, [user_id, name, city], (err, results) => {
+            if (err) {
+                return res.status(500).json({ error: "Failed to check existing favorites." });
             }
-        );
+
+            if (results.length > 0) {
+                return res.status(409).json({ message: "This location is already in your favorites." });
+            }
+
+            // Step 3: Insert into the favorites table if not already present
+            const addFavoriteSql =
+                "INSERT INTO favorites (user_id, name, category, street_address, city, province, contacts) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            db.query(
+                addFavoriteSql,
+                [user_id, name, category, street_address, city, province, contacts],
+                (err, result) => {
+                    if (err) {
+                        return res.status(500).json({ error: "Failed to add favorite." });
+                    }
+
+                    res.json({ message: "Favorite added successfully!" });
+                }
+            );
+        });
     });
 });
+
 
 
 // Get User Favorites

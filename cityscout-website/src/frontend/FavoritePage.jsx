@@ -46,10 +46,13 @@ const FavoritePage = ({ user }) => {
 
   if (!user) {
     return (
+      <>
+      <Header user={user} />
       <div className="container">
         <h1>Favorite Page</h1>
         <p>Please log in to view your favorites.</p>
       </div>
+      </>
     );
   }
 
@@ -74,7 +77,7 @@ const FavoritePage = ({ user }) => {
               <p>Category: {favorite.category}</p>
               <p>Address: {favorite.street_address}, {favorite.city}, {favorite.province}</p>
               <p>Contacts: {Object.entries(favorite.contacts).map(([key, value]) => (
-                <span key={key}>{key}: {value} </span>
+                <p key={key}>   {key}: {value} </p>
               ))}</p>
      
               <button
