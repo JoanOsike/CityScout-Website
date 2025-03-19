@@ -54,4 +54,8 @@
     width: 120px; /* Adjust size */
     height: 120px;
   }
-  
+  @media screen and (max-width: 768px) {
+    .selection-container{
+      width: 60%;
+    }
+  }

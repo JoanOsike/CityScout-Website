@@ -138,4 +138,8 @@
     .title{
         font-size: 200%;
     }
+
+    .input{
+        width: 50%;
+    }
 }
