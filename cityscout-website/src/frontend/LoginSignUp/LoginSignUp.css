@@ -1,0 +1,141 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centers content vertically */
+    align-items: center; /* Centers content horizontally */
+    height: 100vh; /* Takes full screen height */
+    margin: auto;
+    margin-top: 25%;
+    background: #fff;
+    padding-bottom: 30px;
+}
+
+
+.header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    margin-top: 30px;
+    font-size: 200%;
+}
+
+* {
+    font-family: "Rowdies", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.underline{
+    width: 61px;
+    height: 6px;
+    background: #000000;
+    border-radius: 9px;
+}
+
+.inputs{
+    margin-top: 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.input{
+    display: flex;
+    align-items: center;
+    margin: auto;
+    width: 480px;
+    height: 80px;
+    background: #eaeaea;
+    border-radius: 6px;
+}
+
+.input input{
+    margin-left: 10px;
+    height: 50px;
+    width: 400px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #797979;
+    font-size: 19px;
+}
+
+.submit-container{
+    display: flex;
+    gap: 30px;
+    margin: 30px auto;
+}
+
+.submit{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 220px;
+    height: 59px;
+    border-radius: 50px;
+    background: #000000;
+    font-size: 17px;
+    color: aliceblue;
+    cursor: pointer;
+}
+    .gray{
+    background: #eaeaea;
+    color: #797979;
+    
+}
+
+.create-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 220px;
+    height: 59px;
+    border-radius: 50px;
+    background: #dbd08e;
+    font-size: 17px;
+    color: rgb(53, 53, 53);
+    cursor: pointer;
+    border: none;
+}
+
+.buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: none;
+}
+
+.title{
+    font-family: "Barriecito";
+    font-size: 400%;
+    display: flex;
+    color: rgb(68, 43, 16);
+    justify-content: center;
+}
+
+.description {
+    text-align: center;
+    max-width: 600px;
+    font-family: "Rowdies", sans-serif;
+    font-size: 100%;
+    color: rgb(68, 43, 16);
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+@media screen and (max-width: 768px) {
+    .container{
+        margin-top: 100%;
+    }
+    .submit{
+        width: 100px;
+        font-size: 85%;
+    }
+    .description{
+        font-size: 70%;
+    }
+    .title{
+        font-size: 200%;
+    }
+}

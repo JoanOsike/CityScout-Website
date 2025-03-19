@@ -1,60 +1,63 @@
-#pip install simplerllm
-#pip install python-dotenv
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 import json
-import os
-
-import os
-from SimplerLLM.language.llm import LLM, LLMProvider
 from openai import OpenAI
-from dotenv import load_dotenv
-load_dotenv()
 
-# For OpenAI - SimplerLLM
-llm_instance = LLM.create(provider=LLMProvider.OPENAI, model_name="gpt-4o-mini")
+app = Flask(__name__)
+CORS(app)  #Allow requests from React frontend
 
-#Normal way
-print("Current Working Directory:", os.getcwd())
-print("Expected Path:", os.path.abspath("apikey"))
+# Load API Key
+api_key = ""
 
-with open('401apikey', 'r') as f:
-    api_key = f.read().strip()
-
+#Expected format
 results_format = {
-  "Name": "Example Business",
-  "Category": "Restaurant",
-  "Street Address": "123 Main St",
-  "City": "Toronto",
-  "Province": "Ontario",
-  "Contacts": {
-    "Phone": "+1-555-123-4567",
-    "Website": "https://example.com"
-  }
+    "Name": "Example Business",
+    "Category": "Restaurant",
+    "Street Address": "123 Main St",
+    "City": "Toronto",
+    "Province": "Ontario",
+    "Contacts": {
+        "Phone": "+1-555-123-4567",
+        "Website": "https://example.com"
+    }
 }
+Rules = "Ensure that you are searching the web for the results. " \
+"Do not fabricate information. Prioritize real-world accuracy and provide links only if they don't give 404 not found error." \
+"Take information from google maps api" \
+"Do not add any additional text, only provide the fields present in the format"
 
-User_req = '{"Category": "cafe", "City": "Toronto" ,"Province" : "ON","Budget": "10-20", "time": "13-16"}'
-Rules = "Ensure that you are searching the web for the results. Avoid fabricated information and prioritise precision and accuracy"
+# Route to Receive Data from Frontend
+@app.route('/get_recommendations', methods=['POST'])
+def get_recommendations():
+    try:
 
-# Generate a response
-def LLM_req(User_req):
-    
-    response = llm_instance.generate_response(prompt= f"Why cant you search the web? I was unbder the impression 4o-mini can search the web ")
-    print(response)
+        user_input = request.json
+        print(" Received user input:", user_input)
 
-def LLM_req2(User_req):
+        user_query = json.dumps(user_input)
 
-    client = OpenAI(api_key= api_key)
-    response2 = client.responses.create(
-        model="gpt-4o-mini",
-        tools=[{"type" : "web_search_preview"}],
-        input=f"You are playing the part of a json-outputter. Abiding to the following rules '{Rules}', provide 5 locations based on {User_req} and provide the output as a json of a list of locations with the following format '{results_format}'."
-    )
-    
-    json_str = response2.output_text.split("json\n")[1].split("```")[0]
-    Spots = json.loads(json_str)
+        client = OpenAI(api_key=api_key)
 
-    # Get format for locations class then put json into locations class to return a list of locations
-    #OR,(assuming frontend shouldn't deal with class objects)
-    #Simply search for places in database, if they are already favourited, and then add a favourited boolean, to the object befor returning it.
-    print(Spots)
+        response2 = client.responses.create(
+            model="gpt-4o",
+            tools=[{"type" : "web_search_preview"}],
+            input=f"You are playing the part of a json-outputter. Abiding strictly to the following rules '{Rules}', provide 1-3 locations based on {user_query} and provide the output as a json of a list of locations in the matching city, strictly fitting the following format '{results_format}'."
+        )
+        #print("Raw OpenAI response:", response2)
 
-LLM_req2(User_req)
+        json_str = response2.output_text.split("json\n")[1].split("```")[0]
+        spots = json.loads(json_str)
+
+
+        print("📩 Sending response to frontend:", spots)  # Debugging
+        return jsonify(spots)
+
+    except json.JSONDecodeError:
+        print(f"⚠️ JSON Error: OpenAI response is not valid JSON.\n{ai_response}")
+        return jsonify({"error": "Invalid JSON response from OpenAI"}), 500
+    except Exception as e:
+        print(f"⚠️ Error in LLM API: {e}")
+        return jsonify({"error": str(e)}), 500
+
+if __name__ == '__main__':
+    app.run(debug=True)
