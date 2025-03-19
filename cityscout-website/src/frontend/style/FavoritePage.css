@@ -1,0 +1,44 @@
+.favorites-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    font-size: 2rem;
+}
+
+.favorite-item {
+    background: #f8f8f8;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    border-left: 5px solid #007bff;
+    transition: transform 0.2s ease-in-out;
+}
+
+.favorite-item:hover {
+    transform: scale(1.02);
+}
+
+.favorite-item p {
+    margin: 5px 0;
+    font-size: 1rem;
+    color: #444;
+}
+
+.favorite-item a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.favorite-item h3 {
+    color: #007bff;
+    margin-bottom: 5px;
+}

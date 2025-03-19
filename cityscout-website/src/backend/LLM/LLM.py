@@ -44,7 +44,7 @@ def get_recommendations():
         response2 = client.responses.create(
             model="gpt-4o-mini",
             tools=[{"type" : "web_search_preview"}],
-            input=f"You are playing the part of a json-outputter. Abiding strictly to the following rules '{Rules}', provide 1-8 locations based on {user_query} and provide the output as a json of a list of locations in the matching city, strictly fitting the following format '{results_format}'."
+            input=f"You are playing the part of a json-outputter. Abiding strictly to the following rules '{Rules}', provide 1-3 locations based on {user_query} and provide the output as a json of a list of locations in the matching city, strictly fitting the following format '{results_format}'."
         )
         #print("Raw OpenAI response:", response2)
 
