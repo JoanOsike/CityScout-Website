@@ -9,7 +9,7 @@ const FavoritePage = ({ user }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    document.title = "Favourite Page";
+    document.title = "Favorite Page";
 
     if (user) {
       fetchFavorites();
