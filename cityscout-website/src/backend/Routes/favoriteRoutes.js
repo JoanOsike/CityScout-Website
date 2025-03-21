@@ -9,7 +9,7 @@ router.post("/add", (req, res) => {
 
     // Step 1: Get the user_id from the username
     const getUserIdSql = "SELECT id FROM users WHERE username = ?";
-    db.query(getUserIdSql, [username], (err, results) => {
+    db.getPool().query(getUserIdSql, [username], (err, results) => {
         if (err) {
             return res.status(500).json({ error: "Failed to retrieve user ID." });
         }
@@ -23,7 +23,7 @@ router.post("/add", (req, res) => {
         // Step 2: Check if the favorite already exists
         const checkFavoriteSql =
             "SELECT * FROM favorites WHERE user_id = ? AND name = ? AND city = ?";
-        db.query(checkFavoriteSql, [user_id, name, city], (err, results) => {
+        db.getPool().query(checkFavoriteSql, [user_id, name, city], (err, results) => {
             if (err) {
                 return res.status(500).json({ error: "Failed to check existing favorites." });
             }
@@ -35,7 +35,7 @@ router.post("/add", (req, res) => {
             // Step 3: Insert into the favorites table if not already present
             const addFavoriteSql =
                 "INSERT INTO favorites (user_id, name, category, street_address, city, province, contacts) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            db.query(
+            db.getPool().query(
                 addFavoriteSql,
                 [user_id, name, category, street_address, city, province, contacts],
                 (err, result) => {
@@ -58,7 +58,7 @@ router.get("/:username", (req, res) => {
 
     // Query to get the user_id from the users table
     const getUserIdSql = "SELECT id FROM users WHERE username = ?";
-    db.query(getUserIdSql, [username], (err, userResults) => {
+    db.getPool().query(getUserIdSql, [username], (err, userResults) => {
         if (err) return res.status(500).json({ error: err.message });
 
         if (userResults.length === 0) {
@@ -69,7 +69,7 @@ router.get("/:username", (req, res) => {
 
         // Query to get the favorites using the user_id
         const getFavoritesSql = "SELECT * FROM favorites WHERE user_id = ?";
-        db.query(getFavoritesSql, [userId], (err, favoriteResults) => {
+        db.getPool().query(getFavoritesSql, [userId], (err, favoriteResults) => {
             if (err) return res.status(500).json({ error: err.message });
 
             res.json(favoriteResults);
@@ -82,7 +82,7 @@ router.get("/:username", (req, res) => {
 router.delete("/:id", (req, res) => {
     const sql = "DELETE FROM favorites WHERE id = ?";
     
-    db.query(sql, [req.params.id], (err, result) => {
+    db.getPool().query(sql, [req.params.id], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
         res.json({ message: "Favorite deleted successfully!" });
     });

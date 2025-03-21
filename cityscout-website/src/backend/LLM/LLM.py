@@ -7,6 +7,7 @@ import socket
 import requests
 
 app = Flask(__name__)
+
 CORS(app)  #Allow requests from React frontend
 
 # Load API Key
@@ -42,7 +43,7 @@ def get_recommendations():
         client = OpenAI(api_key=api_key)
 
         response2 = client.responses.create(
-            model="gpt-4o-mini",
+            model="gpt-4o",
             tools=[{"type" : "web_search_preview"}],
             input=f"You are playing the part of a json-outputter. Abiding strictly to the following rules '{Rules}', provide 1-3 locations based on {user_query} and provide the output as a json of a list of locations in the matching city, strictly fitting the following format '{results_format}'."
         )
@@ -55,7 +56,7 @@ def get_recommendations():
         def is_valid_website(url):
           try:
               # First, check if the domain exists
-              domain = url.split('/')[2]  
+              domain = url.split('/')[2]
               socket.gethostbyname(domain)  # This will fail if the domain doesn't exist
 
               
@@ -68,7 +69,7 @@ def get_recommendations():
               if len(html) < 500:  # If page is too short, likely blank
                   return False
 
-              return True  
+              return True
           except socket.gaierror:
               print(f"DNS error: {url} is unreachable.")
               return False
@@ -82,7 +83,7 @@ def get_recommendations():
                   print('H')
                   if not is_valid_website(obj['Contacts']['Website']):
                       obj['Contacts']['Website'] = "Unavailable"
-          return json_list  
+          return json_list
 
 
         spots = replace_invalid_websites(json.loads(json_str))
@@ -93,10 +94,10 @@ def get_recommendations():
         return jsonify(spots)
 
     except json.JSONDecodeError:
-        print(f"⚠️ JSON Error: OpenAI response is not valid JSON.\n{ai_response}")
+        print(f"JSON Error: OpenAI response is not valid JSON.")
         return jsonify({"error": "Invalid JSON response from OpenAI"}), 500
     except Exception as e:
-        print(f"⚠️ Error in LLM API: {e}")
+        print(f"Error in LLM API: {e}")
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
