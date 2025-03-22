@@ -14,7 +14,7 @@ router.post("/register", async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)";
         
-        db.query(sql, [username, hashedPassword], (err, result) => {
+        db.getPool().query(sql, [username, hashedPassword], (err, result) => {
             if (err) {
                 if (err.code === "ER_DUP_ENTRY") {
                     return res.status(409).json({ error: "Username is already taken. Please choose another one." });
@@ -33,7 +33,7 @@ router.post("/login", (req, res) => {
     const { username, password } = req.body;
 
     const sql = "SELECT * FROM users WHERE username = ?";
-    db.query(sql, [username], async (err, results) => {
+    db.getPool().query(sql, [username], async (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
         if (results.length === 0) return res.status(401).json({ error: "Invalid username or password" });
 
